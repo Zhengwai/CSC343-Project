@@ -1,0 +1,320 @@
+csc343h-songgua7=> \i solarsystem.sql
+psql:solarsystem.sql:1: NOTICE:  drop cascades to 8 other objects
+DETAIL:  drop cascades to type category
+drop cascades to table planet
+drop cascades to table smallermoon
+drop cascades to table smallmoon
+drop cascades to table largemoon
+drop cascades to table asteroid
+drop cascades to table astronomer
+drop cascades to table discovered
+DROP SCHEMA
+CREATE SCHEMA
+SET
+CREATE DOMAIN
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+csc343h-songgua7=> \i create_all.sql
+psql:create_all.sql:1: NOTICE:  table "all_data" does not exist, skipping
+DROP TABLE
+CREATE TABLE
+COPY 287
+DELETE 1
+psql:create_all.sql:36: NOTICE:  table "tempast" does not exist, skipping
+DROP TABLE
+CREATE TABLE
+INSERT 0 89
+INSERT 0 89
+psql:create_all.sql:42: NOTICE:  table "nicedata" does not exist, skipping
+DROP TABLE
+CREATE TABLE
+INSERT 0 286
+INSERT 0 5
+INSERT 0 8
+INSERT 0 20
+INSERT 0 202
+INSERT 0 3
+INSERT 0 48
+INSERT 0 13
+INSERT 0 225
+INSERT 0 231
+INSERT 0 3
+INSERT 0 43
+DROP TABLE
+DROP TABLE
+DROP TABLE
+csc343h-songgua7=> \d
+              List of relations
+   Schema    |    Name     | Type  |  Owner   
+-------------+-------------+-------+----------
+ solarsystem | asteroid    | table | songgua7
+ solarsystem | astronomer  | table | songgua7
+ solarsystem | discovered  | table | songgua7
+ solarsystem | largemoon   | table | songgua7
+ solarsystem | orbit       | table | songgua7
+ solarsystem | planet      | table | songgua7
+ solarsystem | smallermoon | table | songgua7
+ solarsystem | smallmoon   | table | songgua7
+(8 rows)
+
+csc343h-songgua7=> \d asteroid
+                Table "solarsystem.asteroid"
+ Column |       Type       | Collation | Nullable | Default 
+--------+------------------+-----------+----------+---------
+ bid    | text             |           | not null | 
+ name   | text             |           | not null | 
+ mass   | double precision |           | not null | 
+Indexes:
+    "asteroid_pkey" PRIMARY KEY, btree (bid)
+
+csc343h-songgua7=> \d astronomer
+             Table "solarsystem.astronomer"
+   Column    |  Type   | Collation | Nullable | Default 
+-------------+---------+-----------+----------+---------
+ aid         | integer |           | not null | 
+ name        | text    |           | not null | 
+ nationality | text    |           |          | 
+Indexes:
+    "astronomer_pkey" PRIMARY KEY, btree (aid)
+Referenced by:
+    TABLE "discovered" CONSTRAINT "discovered_aid_fkey" FOREIGN KEY (aid) REFERENCES astronomer(aid)
+
+csc343h-songgua7=> \d discovered
+                        Table "solarsystem.discovered"
+     Column     |            Type             | Collation | Nullable | Default 
+----------------+-----------------------------+-----------+----------+---------
+ bid            | text                        |           | not null | 
+ aid            | integer                     |           | not null | 
+ discovery_date | timestamp without time zone |           |          | 
+Indexes:
+    "discovered_pkey" PRIMARY KEY, btree (bid, aid)
+Foreign-key constraints:
+    "discovered_aid_fkey" FOREIGN KEY (aid) REFERENCES astronomer(aid)
+
+csc343h-songgua7=> \d largemoon
+                  Table "solarsystem.largemoon"
+    Column    |       Type       | Collation | Nullable | Default 
+--------------+------------------+-----------+----------+---------
+ bid          | text             |           | not null | 
+ name         | text             |           | not null | 
+ mass         | double precision |           | not null | 
+ volume       | double precision |           | not null | 
+ escape_speed | double precision |           | not null | 
+ gravity      | double precision |           | not null | 
+Indexes:
+    "largemoon_pkey" PRIMARY KEY, btree (bid)
+
+csc343h-songgua7=> \d orbit
+                    Table "solarsystem.orbit"
+    Column    |       Type       | Collation | Nullable | Default 
+--------------+------------------+-----------+----------+---------
+ satellite    | text             |           | not null | 
+ parent_body  | text             |           | not null | 
+ perihelion   | double precision |           | not null | 
+ aphelion     | double precision |           | not null | 
+ eccentricity | double precision |           | not null | 
+Indexes:
+    "orbit_pkey" PRIMARY KEY, btree (satellite, parent_body)
+
+csc343h-songgua7=> \d planet
+                    Table "solarsystem.planet"
+    Column    |       Type       | Collation | Nullable | Default 
+--------------+------------------+-----------+----------+---------
+ bid          | text             |           | not null | 
+ name         | text             |           | not null | 
+ category     | category         |           | not null | 
+ mass         | double precision |           | not null | 
+ volume       | double precision |           | not null | 
+ escape_speed | double precision |           | not null | 
+ gravity      | double precision |           | not null | 
+Indexes:
+    "planet_pkey" PRIMARY KEY, btree (bid)
+
+csc343h-songgua7=> \d smallermoon
+        Table "solarsystem.smallermoon"
+ Column | Type | Collation | Nullable | Default 
+--------+------+-----------+----------+---------
+ bid    | text |           | not null | 
+ name   | text |           | not null | 
+Indexes:
+    "smallermoon_pkey" PRIMARY KEY, btree (bid)
+
+csc343h-songgua7=> \d smallmoon
+               Table "solarsystem.smallmoon"
+ Column |       Type       | Collation | Nullable | Default 
+--------+------------------+-----------+----------+---------
+ bid    | text             |           | not null | 
+ name   | text             |           | not null | 
+ mass   | double precision |           | not null | 
+Indexes:
+    "smallmoon_pkey" PRIMARY KEY, btree (bid)
+
+csc343h-songgua7=> select count(*) from asteroid;
+ count 
+-------
+    48
+(1 row)
+
+csc343h-songgua7=> select count(*) from astronomer;
+ count 
+-------
+    89
+(1 row)
+
+csc343h-songgua7=> select count(*) from discovered;
+ count 
+-------
+   277
+(1 row)
+
+csc343h-songgua7=> select count(*) from largemoon;
+ count 
+-------
+     3
+(1 row)
+
+csc343h-songgua7=> select count(*) from orbit;
+ count 
+-------
+   238
+(1 row)
+
+csc343h-songgua7=> select count(*) from planet;
+ count 
+-------
+    13
+(1 row)
+
+csc343h-songgua7=> select count(*) from smallermoon;
+ count 
+-------
+    20
+(1 row)
+
+csc343h-songgua7=> select count(*) from smallmoon;
+ count 
+-------
+   202
+(1 row)
+
+csc343h-songgua7=> select * from asteroid where mass!=2.4*power(10,16);
+       bid       |        name         |   mass    
+-----------------+---------------------+-----------
+ soleil          | Sun                 | 1.989e+30
+ c2020f3-neowise | C/2020 F3 (NEOWISE) |         0
+(2 rows)
+
+csc343h-songgua7=> select * from astronomer where aid>75;
+ aid |                  name                  | nationality 
+-----+----------------------------------------+-------------
+  76 | E. P. Rubenstein                       | 
+  77 | Seth Barnes Nicholson                  | 
+  78 | David Rabinowitz / Spacewatch          | 
+  79 | John J. Kavelaars                      | 
+  80 | TÃ©lescope spatial Hubble              | 
+  81 | Mark R. Showalter                      | 
+  82 | Charles Kowa                           | 
+  83 | Ann Harch                              | 
+  84 | Michael E. Brown                       | 
+  85 | Richard L. Walker                      | 
+  86 | Yuji Hyakutake                         | 
+  87 | Charles T. Kowal                       | 
+  88 | Charles Kowal 1975 - Scott S. Sheppard | 
+  89 | Gerard Kuiper                          | 
+(14 rows)
+
+csc343h-songgua7=> select * from discovered where aid=84;
+   bid    | aid |   discovery_date    
+----------+-----+---------------------
+ makemake |  84 | 2005-03-31 00:00:00
+ haumea   |  84 | 2004-12-28 00:00:00
+ weywot   |  84 | 2007-02-22 00:00:00
+ romulus  |  84 | 2001-02-18 00:00:00
+ orcus    |  84 | 2004-02-17 00:00:00
+ vanth    |  84 | 2005-11-13 00:00:00
+ eris     |  84 | 2005-01-05 00:00:00
+ hiiaka   |  84 | 2005-01-26 00:00:00
+ namaka   |  84 | 2005-06-30 00:00:00
+ dysnomie |  84 | 2005-09-01 00:00:00
+(10 rows)
+
+csc343h-songgua7=> select * from largemoon;
+  bid   |  name  |   mass    |   volume    | escape_speed | gravity 
+--------+--------+-----------+-------------+--------------+---------
+ lune   | Moon   | 7.346e+22 | 21968000000 |         2380 |    1.62
+ phobos | Phobos |  1.06e+16 |     5783.61 |        11.39 |  0.0057
+ deimos | Deimos |   2.4e+15 |      9997.8 |        5.556 |   0.003
+(3 rows)
+
+csc343h-songgua7=> select * from orbit where parent_body='neptune';
+ satellite  | parent_body | perihelion | aphelion | eccentricity 
+------------+-------------+------------+----------+--------------
+ triton     | neptune     |     354753 |   354765 |        2e-05
+ nereide    | neptune     |    1372000 |  9655000 |       0.7512
+ naiade     | neptune     |          0 |        0 |       0.0003
+ thalassa   | neptune     |          0 |        0 |       0.0002
+ despina    | neptune     |          0 |        0 |       0.0001
+ galatee    | neptune     |          0 |        0 |       0.0001
+ larissa    | neptune     |          0 |        0 |       0.0014
+ protee     | neptune     |          0 |        0 |       0.0004
+ halimede   | neptune     |          0 |        0 |        0.571
+ psamathee  | neptune     |          0 |        0 |         0.45
+ sao        | neptune     |          0 |        0 |        0.293
+ laomedie   | neptune     |          0 |        0 |        0.424
+ neso       | neptune     |          0 |        0 |        0.495
+ hippocampe | neptune     |          0 |        0 |            0
+(14 rows)
+
+csc343h-songgua7=> select * from planet where category='dwarf';
+   bid    |      name       | category |   mass    |   volume   | escape_speed | gravity 
+----------+-----------------+----------+-----------+------------+--------------+---------
+ ceres    | 1 Ceres         | dwarf    | 9.393e+20 | 4210000000 |          510 |    0.28
+ eris     | 136199 Eris     | dwarf    |  1.66e+22 | 6590000000 |         1380 |    0.82
+ pluton   | Pluto           | dwarf    | 1.303e+22 | 7150000000 |         1210 |    0.62
+ haumea   | 136108 Haumea   | dwarf    | 4.006e+21 | 2400000000 |          809 |   0.401
+ makemake | 136472 Makemake | dwarf    |   4.4e+21 | 1700000000 |          800 |     0.5
+(5 rows)
+
+csc343h-songgua7=> select * from smallermoon;
+   bid    |    name     
+----------+-------------
+ s2004s22 | S/2004 S 22
+ s2004s21 | S/2004 S 21
+ s2004s20 | S/2004 S 20
+ s2004s23 | S/2004 S 23
+ s2004s24 | S/2004 S 24
+ s2004s25 | S/2004 S 25
+ s2004s26 | S/2004 S 26
+ s2004s27 | S/2004 S 27
+ s2004s28 | S/2004 S 28
+ s2004s29 | S/2004 S 29
+ s2004s30 | S/2004 S 30
+ s2004s31 | S/2004 S 31
+ s2004s32 | S/2004 S 32
+ s2004s33 | S/2004 S 33
+ s2004s34 | S/2004 S 34
+ s2004s35 | S/2004 S 35
+ s2004s36 | S/2004 S 36
+ s2004s37 | S/2004 S 37
+ s2004s38 | S/2004 S 38
+ s2004s39 | S/2004 S 39
+(20 rows)
+
+csc343h-songgua7=> select * from smallmoon where mass<power(10,13);
+   bid    |    name     |     mass      
+----------+-------------+---------------
+ s2003j9  | S/2003 J 9  | 1500000000000
+ s2003j12 | S/2003 J 12 | 1000000000000
+ anthe    | Anthe       | 5000000000000
+ egeon    | Aegaeon     |  100000000000
+ s2009s1  | S/2009 S 1  |  100000000000
+(5 rows)
+
+csc343h-songgua7=> 
+ 
